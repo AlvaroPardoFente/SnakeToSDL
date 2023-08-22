@@ -8,7 +8,7 @@
 int screenWidth = 40;
 int screenHeight = 20;
 
-class Coordinate {
+class Coordinates {
     private:
         int x;
         int y;
