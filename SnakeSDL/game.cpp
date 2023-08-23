@@ -28,9 +28,6 @@ SDL_Window* gWindow = NULL;
 //The window renderer
 SDL_Renderer* gRenderer = NULL;
 
-//Scene texturegPromptTexture
-LTexture ;
-
 //The music that will be played
 Mix_Music* gMusic = NULL;
 
@@ -103,13 +100,6 @@ bool loadMedia()
 	//Loading success flag
 	bool success = true;
 
-	//Load prompt texture
-	if (!gPromptTexture.loadFromFile(gRenderer, "../../tutorials/21_sound_effects_and_music/prompt.png"))
-	{
-		printf("Failed to load prompt texture!\n");
-		success = false;
-	}
-
 	//Load music
 	gMusic = Mix_LoadMUS("../../tutorials/21_sound_effects_and_music/beat.wav");
 	if (gMusic == NULL)
@@ -131,9 +121,6 @@ bool loadMedia()
 
 void close()
 {
-	//Free loaded images
-	gPromptTexture.free();
-
 	//Free the sound effects
 	Mix_FreeChunk(gScratch);
 	gScratch = NULL;
@@ -163,6 +150,26 @@ int main(int argc, char* args[])
 	}
 	else
 	{
+		//Main loop flag
+		bool quit = false;
+
+		//Event handler
+		SDL_Event e;
+
+		Board board = Board(gRenderer, BOARD_WIDTH, BOARD_HEIGHT);
+
+		Dir currentDir = Dir::right;
+
+		Dir moveDir = Dir::right;
+
+		uint8_t moveResult = MOVE;
+
+		bool processedInput = false;
+
+		int frame = 0;
+
+		int updateFrequency = 60;
+
 		//Load media
 		if (!loadMedia())
 		{
@@ -170,20 +177,6 @@ int main(int argc, char* args[])
 		}
 		else
 		{
-			//Main loop flag
-			bool quit = false;
-
-			//Event handler
-			SDL_Event e;
-
-			Board board = Board(BOARD_WIDTH, BOARD_HEIGHT);
-
-			Dir currentDir = Dir::up;
-
-			uint8_t moveResult = MOVE;
-
-			bool processedInput = false;
-
 			//While application is running
 			while (!quit)
 			{
@@ -202,7 +195,7 @@ int main(int argc, char* args[])
 						switch (e.key.keysym.sym)
 						{
 						case SDLK_UP:
-							currentDir = Dir::up;
+							if (currentDir != Dir::down) currentDir = Dir::up;
 							processedInput = true;
 							break;
 						case SDLK_DOWN:
@@ -223,22 +216,38 @@ int main(int argc, char* args[])
 				}
 
 				//Game logic
-				moveResult = board.getSnake().move(currentDir);
-				if (moveResult & GAME_OVER) quit = true;
-				if (moveResult & FOOD_EATEN)
+				if ((frame % updateFrequency) == 0)
 				{
-					//TODO: Incrementar velocidad
-				}
+					if (((static_cast<int>(currentDir) - static_cast<int>(moveDir)) + 4) % 4 != 2) moveDir = currentDir;
+					moveResult = board.getSnake().move(moveDir);
+					//if (moveResult & GAME_OVER) quit = true;
+					if (moveResult & FOOD_EATEN)
+					{
+						if (updateFrequency - 6 > 6) updateFrequency -= 6;
+						else if (updateFrequency == 6) {}
+						else updateFrequency == 6;
 
+						frame = 1;
+					}
+				}
 				//Clear screen
 				SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 				SDL_RenderClear(gRenderer);
 
 				//Render prompt
-				gPromptTexture.render(gRenderer, 0, 0);
+				board.render(gRenderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+				board.getSnake().render(gRenderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+				board.getFood().render(gRenderer, SCREEN_WIDTH, SCREEN_HEIGHT, (frame / 30) % 4);
 
 				//Update screen
 				SDL_RenderPresent(gRenderer);
+
+				++frame;
+
+				/*if (frame / 30 >= 20000)
+				{
+					frame = 0;
+				}*/
 			}
 		}
 	}

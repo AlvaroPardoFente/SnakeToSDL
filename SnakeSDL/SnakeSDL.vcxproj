@@ -132,9 +132,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\tutorials\10_color_keying\10_color_keying.cpp" />
-    <ClCompile Include="..\..\tutorials\14_animated_sprites_and_vsync\14_animated_sprites_and_vsync.cpp" />
-    <ClCompile Include="..\..\tutorials\26_motion\26_motion.cpp" />
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="Food.cpp" />
     <ClCompile Include="game.cpp" />
@@ -149,7 +146,15 @@
     <ClInclude Include="Food.h" />
     <ClInclude Include="LTexture.h" />
     <ClInclude Include="Snake.h" />
+    <ClInclude Include="SnakeCoordinate.h" />
     <ClInclude Include="SnakeFlags.h" />
+    <ClInclude Include="TurnEnum.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Resources\Images\apple.png" />
+    <Image Include="..\Resources\Images\ground.png" />
+    <Image Include="..\Resources\Images\snake.png" />
+    <Image Include="..\Resources\Images\wall.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

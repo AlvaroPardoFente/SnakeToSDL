@@ -4,15 +4,23 @@
 #include <random>
 #include <thread>
 #include <chrono>
+#include "Board.h"
 
-Food::Food(Board& board) : board(board)
+Food::Food(SDL_Renderer* renderer, Board& board) : board(board)
 {
     makeNew();
+
+    texture.loadFromFile(renderer, "../Resources/images/apple.png");
+
+    textureSpriteClips[0] = { 0, 0, 10, 10 };
+    textureSpriteClips[1] = { 10, 0, 10, 10 };
+    textureSpriteClips[2] = { 20, 0, 10, 10 };
+    textureSpriteClips[3] = { 30, 0, 10, 10 };
 }
 
 bool Food::isValidCoord(int x, int y)
 {
-    for (const Coordinate& coord : board.getSnake().getBody()) {
+    for (const auto& coord : board.getSnake().getBody()) {
 
         if (coord.getX() == x && coord.getY() == y) {
             return false;
@@ -30,6 +38,7 @@ Food::~Food()
 
 void Food::free()
 {
+    texture.free();
 }
 
 int Food::getX() const
@@ -59,4 +68,10 @@ void Food::makeNew()
     } while (!isValidCoord(randomX, randomY));
 
     location = Coordinate(randomX, randomY, board.getWidth(), board.getHeight());
+}
+
+void Food::render(SDL_Renderer* renderer, int screenWidth, int screenHeight, int currentClip)
+{
+    texture.render(renderer, (screenWidth - board.getWidth() * 10) / 2 + location.getX() * 10,
+        (screenHeight - board.getHeight() * 10) / 2 + location.getY() * 10, &textureSpriteClips[currentClip]);
 }

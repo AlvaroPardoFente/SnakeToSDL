@@ -33,15 +33,6 @@
     <ClCompile Include="Food.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\tutorials\14_animated_sprites_and_vsync\14_animated_sprites_and_vsync.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\tutorials\26_motion\26_motion.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\tutorials\10_color_keying\10_color_keying.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LTexture.h">
@@ -65,5 +56,25 @@
     <ClInclude Include="SnakeFlags.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="SnakeCoordinate.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="TurnEnum.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Resources\Images\apple.png">
+      <Filter>Archivos de recursos</Filter>
+    </Image>
+    <Image Include="..\Resources\Images\ground.png">
+      <Filter>Archivos de recursos</Filter>
+    </Image>
+    <Image Include="..\Resources\Images\snake.png">
+      <Filter>Archivos de recursos</Filter>
+    </Image>
+    <Image Include="..\Resources\Images\wall.png">
+      <Filter>Archivos de recursos</Filter>
+    </Image>
   </ItemGroup>
 </Project>
